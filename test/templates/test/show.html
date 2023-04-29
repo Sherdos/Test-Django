@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="row">
+    
+    <div class="con">
+        <form action="{% url 'chek' %}" method="post">
+            <div class="info">
+                {% for field in form %}
+                    <div class="fieldWrapper">
+                        {{ field.errors }}
+                        {{ field.label_tag }} 
+                        {{ field }}
+                    </div>
+                {% endfor %}
+            </div>
+            
+            {% csrf_token %}
+            <input type="hidden" value="{{test.id}}" name="test">
+            <div class="questions">
+                {% for q in test.question.all %}
+                    <div class="question">
+                        <h4>{{forloop.counter}} {{q.question_text}}</h4>
+                        {% if q.question_description %}
+                            <div class="des">
+                                {% autoescape off %}
+                                    <p >{{q.question_description|linebreaksbr}}</p>
+                                {% endautoescape %}
+                            </div>
+                        {% endif %}
+                        <div class="choices">
+                            {% for choice in q.question_choice.all %}
+                                <div class="choice">
+                                    <input type="radio" required name="question{{q.id}}" id="choice{{ choice.id }}" value="{{ choice.id }}" >
+                                    <label for="choice{{ choice.id }}">{{ choice.choice_text }}</label><br>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+                
+            </div>
+            <button class="btn" type="submit">Отправить</button>
+        </form>
+    </div>
+   
+</div>
+{% endblock %}

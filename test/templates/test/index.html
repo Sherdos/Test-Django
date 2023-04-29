@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="row">
+    <aside class="col-3">
+        <ul class="sidebar">
+            <li>Тесты</li>
+            <li>Результаты</li>
+            <li>Новые Тесты</li>
+        </ul>
+    </aside>
+    
+    <div class="col-9">
+         <div class="cards">
+            {% for test in tests %}
+                <div class="card">
+                    <img src="{{ test.image.url }}" alt="">
+                    <div class="card-body">
+                        <a href="{{test.get_absolute_url}}">
+                            <h2 class="title-test">{{test.title}}</h2>
+                        </a>
+                        <p>
+                            {{ test.description }}
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+   
+</div>
+{% endblock %}
